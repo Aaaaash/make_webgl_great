@@ -1,1 +1,1 @@
-## Getting_started_with_WebGL
+## WebGL tutorial
