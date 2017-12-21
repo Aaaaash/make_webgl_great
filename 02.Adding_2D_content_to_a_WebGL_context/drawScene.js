@@ -1,4 +1,5 @@
 export default function drawScene(gl, programInfo, buffers) {
+  debugger;
   // 清除画布
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
   gl.clearDepth(1.0);
@@ -32,7 +33,7 @@ export default function drawScene(gl, programInfo, buffers) {
     const normalize = false;
     const stride = 0;
     const offset = 0;
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffers);
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
     gl.vertexAttribPointer(
       programInfo.attribLocations.vertexPosition,
       numComponents,
@@ -43,6 +44,26 @@ export default function drawScene(gl, programInfo, buffers) {
     );
     gl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition);
   }
+
+  {
+    // 告诉webgl从何处开始绘制
+    const numComponents = 4;
+    const type = gl.FLOAT;
+    const normalize = false;
+    const stride = 0;
+    const offset = 0;
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.colors);
+    gl.vertexAttribPointer(
+      programInfo.attribLocations.vertexColor,
+      numComponents,
+      type,
+      normalize,
+      stride,
+      offset
+    );
+    gl.enableVertexAttribArray(programInfo.attribLocations.vertexColor);
+  }
+
   gl.useProgram(programInfo.program);
 
   gl.uniformMatrix4fv(
