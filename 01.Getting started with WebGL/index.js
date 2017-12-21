@@ -1,3 +1,5 @@
+import { initialWebGL } from '../utils/initialWebGL.js';
+
 const canvas = document.querySelector('#canvas');
 const gl = initialWebGL(canvas);
 
@@ -14,17 +16,4 @@ if (gl) {
   gl.depthFunc(gl.LEQUAL); 
   // 清除颜色和深度缓存
   gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);     
-}
-
-function initialWebGL(element) {
-  let webgl;
-  try {
-    webgl = element.getContext("webgl") || element.getContext("experimental-webgl");
-  }
-  catch(e) {}
-  if (!webgl) {
-    alert("WebGL初始化失败，可能是因为您的浏览器不支持。");
-    webgl = null;
-  }
-  return webgl;
 }
