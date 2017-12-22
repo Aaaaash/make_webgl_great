@@ -1,4 +1,5 @@
-export default function drawScene(gl, programInfo, buffers) {
+let squareRotation = 0.0;
+export default function drawScene(gl, programInfo, buffers, deltaTime) {
   debugger;
   // 清除画布
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -25,7 +26,8 @@ export default function drawScene(gl, programInfo, buffers) {
 
   // 将绘图位置移动到场景中心
   mat4.translate(modelViewMatrix, modelViewMatrix, [-0.0, 0.0, -6.0]);
-
+  // 旋转
+  mat4.rotate(modelViewMatrix, modelViewMatrix, squareRotation, [0,0,1]);
   {
     // 告诉webgl从何处开始绘制
     const numComponents = 2;
@@ -78,4 +80,5 @@ export default function drawScene(gl, programInfo, buffers) {
   );
 
   gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  squareRotation -= deltaTime;
 }

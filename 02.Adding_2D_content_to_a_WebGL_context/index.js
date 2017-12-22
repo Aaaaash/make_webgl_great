@@ -1,7 +1,7 @@
-import initShaders from './initShaders.js';
-import initBuffers from './initBuffers.js';
-import drawScene from './drawScene.js';
+import initShaders from '../utils/initShaders.js';
+import initBuffers from '../utils/initBuffers.js';
 import { initialWebGL } from '../utils/initialWebGL.js';
+import drawScene from './drawScene.js';
 
 const canvas = document.querySelector('#canvas');
 const gl = initialWebGL(canvas);
@@ -38,9 +38,22 @@ if (gl) {
     },
   };
 
-  drawScene(
-    gl,
-    programInfo,
-    positionBuffer,
-  );
+  var then = 0;
+
+  function render(now) {
+    now *= 0.001;  // convert to seconds
+    const deltaTime = now - then;
+    then = now;
+
+    drawScene(
+      gl,
+      programInfo,
+      positionBuffer,
+      deltaTime
+    );
+
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+
 }
