@@ -1,4 +1,4 @@
-export function initialWebGL(element) {
+export default function initialWebGL(element) {
   let webgl;
   try {
     webgl = element.getContext("webgl") || element.getContext("experimental-webgl");

@@ -32,11 +32,7 @@ export default function initShaders(gl) {
 
   // 为webgl对象使用着色器程序
   gl.useProgram(shaderProgram);
-  const textureCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
-  gl.enableVertexAttribArray(textureCoordAttribute);
-  gl.vertexAttribPointer(textureCoordAttribute, 2, gl.FLOAT, false, 0, 0);  
-  const vertexPositionAttribute = gl.getAttribLocation(shaderProgram, 'aVertexPosition');
-  gl.enableVertexAttribArray(vertexPositionAttribute);
+  const vertexPositionAttribute = gl.getAttribLocation(shaderProgram, 'a_position');
   return {
     shaderProgram,
     vertexPositionAttribute,
