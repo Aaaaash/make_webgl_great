@@ -1,7 +1,8 @@
 const VSHADER_SOURCE = `
   attribute vec4 a_Position;
+  uniform vec4 u_Translation;
   void main() {
-    gl_Position = a_Position;
+    gl_Position = a_Position + u_Translation;
   }
 `;
 
@@ -32,15 +33,19 @@ function main() {
   gl.clearColor(0.0,0.0,0.0,1.0);
   gl.clear(gl.COLOR_BUFFER_BIT);
 
-  // gl.drawArrays(gl.LINES, 0, 3);
-  // gl.drawArrays(gl.LINE_STRIP, 0, 3);
-  // gl.drawArrays(gl.LINE_LOOP, 0, 3);
   gl.drawArrays(gl.TRIANGLES, 0, 3);
 }
 
+const Tx = 0.5;
+const Ty = 0.5;
+const Tz = 0.0;
 function initVertexBuffers(gl) {
   const vertices = new Float32Array([
     0.0, 0.5, -0.5, -0.5, 0.5, -0.5
+  ]);
+
+  const translation = new Float32Array([
+    0.5, 0.5, 0.0, 0.0
   ]);
 
   const n = 3;
@@ -55,6 +60,8 @@ function initVertexBuffers(gl) {
   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
 
   const a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+  const u_Translation = gl.getUniformLocation(gl.program,'u_Translation');
+  gl.uniform4f(u_Translation, Tx, Ty, Tz, 0.0);
   // 分配缓冲区对象给变量
   gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
   // 连接a_Position变量与分配给它的缓冲区对象

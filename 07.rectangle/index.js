@@ -32,18 +32,15 @@ function main() {
   gl.clearColor(0.0,0.0,0.0,1.0);
   gl.clear(gl.COLOR_BUFFER_BIT);
 
-  // gl.drawArrays(gl.LINES, 0, 3);
-  // gl.drawArrays(gl.LINE_STRIP, 0, 3);
-  // gl.drawArrays(gl.LINE_LOOP, 0, 3);
-  gl.drawArrays(gl.TRIANGLES, 0, 3);
+  gl.drawArrays(gl.TRIANGLE_FAN, 0, n);
 }
 
 function initVertexBuffers(gl) {
   const vertices = new Float32Array([
-    0.0, 0.5, -0.5, -0.5, 0.5, -0.5
+    -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5
   ]);
 
-  const n = 3;
+  const n = 4;
   
   const vertexBuffer = gl.createBuffer();
   if (!vertexBuffer) {

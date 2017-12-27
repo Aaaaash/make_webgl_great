@@ -223,3 +223,19 @@ Float64Array|8|双精度64位浮点数
 将绘制三个点的代码中`gl.drawArrays(gl.POINT, 0, 3);`修改为`gl.drawArrays(gl.TRIANGLES, 0, 3);`
 
 相当于告诉WebGL，从缓冲区的第一个顶点开始，使顶点着色器执行3次，用这3个点绘制出一个三角形
+![dl.drawArrays](https://github.com/SakuraAsh/make_webgl_great/blob/97027d0604f5c737318363ad968f1418827dac69/images/drawarrays.png?raw=true)
+
+> 从球体到立方体，再到游戏中的三维角色，都可以用小的三角形组成，可以使用这些最基本的图形来绘制出任何东西
+
+## 绘制矩形
+
+```javascript
+// 将绘制三角形代码中的`drawArray`修改为
+gl.drawArrays(gl.TRIANGLE_FAN, 0, n);
+
+// 顶点数据修改为
+const vertices = new Float32Array([
+  -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5
+]);
+```
+表示绘制一个三角带，实际上矩形由两个三角形构成
