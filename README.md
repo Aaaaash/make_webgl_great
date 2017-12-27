@@ -161,3 +161,60 @@ gl.uniform4fv(u_FragColor, colors);
 
 ## 缓冲区对象
 缓冲区对象是webgl系统中的一块内存区域，可以一次性的向缓冲区对象中填充大量的顶点数据，将数据保存在其中以供顶点着色器使用
+![buffer](https://raw.githubusercontent.com/SakuraAsh/make_webgl_great/1e57d78a4b5513da585b7749fee5553d0a834b7b/images/buffer.png)
+
+使用缓冲区对象向顶点着色器传入多个顶点的数据，需要遵循以下5个步骤
+
+* 创建缓冲区对象(gl.createBuffer())
+* 绑定缓冲区对象(gl.bindBuffer())
+* 将数据写入缓冲区对象(gl.bufferData())
+* 将缓冲区对象分配给一个attribute变量(gl.vertexAttribPointer)
+* 开启attribute变量(gl.enableVertexAttribArray)
+
+```javascript
+const vertices = new Float32Array([
+  0.0, 0.5, -0.5, -0.5, 0.5, -0.5
+]);
+
+const n = 3;
+
+const vertexBuffer = gl.createBuffer();
+if (!vertexBuffer) {
+  return -1;
+}
+/**
+ * 将缓冲区对象绑定到目标
+ * bindBuffer函数 第一个参数为绑定的目标 第二个参数为绑定的缓冲区对象
+ * ARRAY_BUFFER为目标
+ */
+gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+  /**
+   * 向缓冲区对象中写入数据
+   * bufferData函数 第一个对象同为绑定的目标 第二个参数为绑定的数据
+   */
+gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+const a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+// 分配缓冲区对象给变量
+gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
+// 连接a_Position变量与分配给它的缓冲区对象
+gl.enableVertexAttribArray(a_Position);
+```
+
+### 类型化数组
+> 为了绘制图形，WebGL通常需要同时处理大量相同类型的数据，例如顶点坐标和颜色数据。为了优化性能，WebGL为美中基本数据类型引入了一种特殊的数据（类型化数组），由于浏览器事先知道数组中的数据类型，所以处理起来也更加有效率
+
+Float32Array就是一种类型化数组，常用来存储顶点坐标或颜色数据，WebGL中很多操作都需要用到类型化数组，比如gl.bufferData中的第二个参数data
+
+数组类型|每个元素所占字节数|描述（C语言中的数据类型）
+----|---------|-------------
+Int8Array|1|8位整型数
+UInt8Array|1|8位无符号整型数
+Int16Array|2|16位整型数
+UInt16Array|2|16位无符号整型数
+Int32Array|4|32位整型数
+UInt32Array|4|32位无符号整型数
+Float32Array|4|单精度32位浮点数
+Float64Array|8|双精度64位浮点数
+
+> 类型化数组不支持push()和pop()方法
