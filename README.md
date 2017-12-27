@@ -158,3 +158,6 @@ const u_FragColor = gl.getUniformLocation(gl.program, 'u_FragColor');
 const colors = new Float32Array([color[0], color[1], color[2], color[3]]);
 gl.uniform4fv(u_FragColor, colors);
 ```
+
+## 缓冲区对象
+缓冲区对象是webgl系统中的一块内存区域，可以一次性的向缓冲区对象中填充大量的顶点数据，将数据保存在其中以供顶点着色器使用
