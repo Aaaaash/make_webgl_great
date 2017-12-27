@@ -7,7 +7,7 @@ const VSHADER_SOURCE = `
 
 const FSHADER_SOURCE = `
   void main() {
-    gl_FragColor = vec4(1.0,0.0,0.0,1.0); // 设置颜色
+    gl_FragColor = vec4(0.5,0.5,0.5,1); // 设置颜色
   }
 `;
 
