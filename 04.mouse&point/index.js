@@ -11,8 +11,11 @@ const VSHADER_SOURCE = `
 `;
 
 const FSHADER_SOURCE = `
+  precision mediump float; // 设置精度
+  // 表示接受vec4类型的uniform变量
+  uniform vec4 u_FragColor;
   void main() {
-    gl_FragColor = vec4(0.0,1.0,0.0,1); // 设置颜色
+    gl_FragColor = u_FragColor; // 设置颜色
   }
 `;
 
@@ -37,10 +40,14 @@ function main() {
   // 获取a_PointSize变量的存储位置
   const a_PointSize = gl.getAttribLocation(gl.program, 'a_PointSize');
 
+  // 获取u_FragColor变量的存储位置
+  const u_FragColor = gl.getUniformLocation(gl.program, 'u_FragColor');
+
   if (a_Position < 0) {
     return;
   }
   const a_points = []; // 存储鼠标点击位置
+  const g_colors = []; // 存储颜色值的数组
   gl.clearColor(0.0,0.0,0.0,1.0);
   gl.clear(gl.COLOR_BUFFER_BIT);
   canvas.addEventListener('mousedown', (ev) => {
@@ -55,13 +62,17 @@ function main() {
       y,
       pointSize
     ]);
+    g_colors.push([x, y, 1.0, 1.0]);
     gl.clearColor(0.0,0.0,0.0,1.0);
     gl.clear(gl.COLOR_BUFFER_BIT);
     for (let i = 0; i < a_points.length; i ++ ) {
       const attr = a_points[i];
+      const color = g_colors[i];
       const position = new Float32Array([attr[0], attr[1], 0.0]);
+      const colors = new Float32Array([color[0], color[1], color[2], color[3]]);
       gl.vertexAttrib3fv(a_Position, position);
       gl.vertexAttrib1f(a_PointSize, attr[2]);
+      gl.uniform4fv(u_FragColor, colors);
       gl.drawArrays(gl.POINT, 0, 1);
     }
   });

@@ -136,3 +136,25 @@ function main() {
   gl.drawArrays(gl.POINT, 0, 1);
 }
 ```
+
+## 向片元着色器变量传值
+attribute只能传递给顶点着色器
+向片元着色器传值需要使用`uniform`变量
+```GLSL
+precision mediump float; // 设置精度
+// 表示接受vec4类型的uniform变量
+uniform vec4 u_FragColor;
+void main() {
+  gl_FragColor = u_FragColor; // 设置颜色
+}
+```
+获取uniform变量的存储位置需要使用`getUniformLocation`函数
+```javascript
+// 获取u_FragColor变量的存储位置
+const u_FragColor = gl.getUniformLocation(gl.program, 'u_FragColor');
+```
+向uniform变量赋值需要使用`uniform[1234]f[v]`系列函数，参数与用法和`vertexAttrib[1234]f[v]`很相似
+```javascript
+const colors = new Float32Array([color[0], color[1], color[2], color[3]]);
+gl.uniform4fv(u_FragColor, colors);
+```
