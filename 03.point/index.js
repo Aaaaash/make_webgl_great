@@ -2,10 +2,11 @@
 const VSHADER_SOURCE = `
   // 接受vec4类型的attribute变量
   attribute vec4 a_Position;
+  attribute float a_PointSize;
   void main() {
     // 将a_Position值赋值给gl_Position 设置顶点坐标
     gl_Position = a_Position;
-    gl_PointSize = 10.0;
+    gl_PointSize = a_PointSize;
   }
 `;
 
@@ -33,6 +34,9 @@ function main() {
    */
   const a_Position = gl.getAttribLocation(gl.program, 'a_Position');
 
+  // 获取a_PointSize变量的存储位置
+  const a_PointSize = gl.getAttribLocation(gl.program, 'a_PointSize');
+
   if (a_Position < 0) {
     return;
   }
@@ -49,7 +53,10 @@ function main() {
    * const floatArray = new Float32Array([0.0,0.0,0.0]);
    * gl.vertexAttrib3fv(a_Position, floatArray);
    */
-  const floatArray = new Float32Array([0.0,0.0,0.0]);
+  const floatArray = new Float32Array([0.5,0.0,0.0]);
+  const pointSize = 30.0;
+  // 使用vertexAttrib1f方法将pointSize传递给顶点着色器内的a_PointSize变量
+  gl.vertexAttrib1f(a_PointSize, pointSize);
   gl.vertexAttrib3fv(a_Position, floatArray);
   // gl.vertexAttrib3f(a_Position, 0.0, 0.0, 0.0);
   gl.clearColor(0.0,0.0,0.0,1.0);
