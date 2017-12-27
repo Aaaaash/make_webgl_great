@@ -218,3 +218,8 @@ Float32Array|4|单精度32位浮点数
 Float64Array|8|双精度64位浮点数
 
 > 类型化数组不支持push()和pop()方法
+
+## 绘制三角形
+将绘制三个点的代码中`gl.drawArrays(gl.POINT, 0, 3);`修改为`gl.drawArrays(gl.TRIANGLES, 0, 3);`
+
+相当于告诉WebGL，从缓冲区的第一个顶点开始，使顶点着色器执行3次，用这3个点绘制出一个三角形
