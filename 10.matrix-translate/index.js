@@ -1,12 +1,8 @@
 const VSHADER_SOURCE = `
   attribute vec4 a_Position;
-  uniform float u_CosB;
-  uniform float u_SinB;
+  uniform mat4 u_xformMatrix;
   void main() {
-    gl_Position.x = a_Position.x * u_CosB - a_Position.y * u_SinB;
-    gl_Position.y = a_Position.x * u_SinB + a_Position.y * u_CosB;
-    gl_Position.z = a_Position.z;
-    gl_Position.w = 1.0;
+    gl_Position = u_xformMatrix * a_Position;
   }
 `;
 
@@ -40,10 +36,14 @@ function main() {
   const cosB = Math.cos(radian);
   const sinB = Math.sin(radian);
 
-  const u_CosB = gl.getUniformLocation(gl.program, 'u_CosB');
-  const u_SinB = gl.getUniformLocation(gl.program, 'u_SinB');
-  gl.uniform1f(u_CosB, cosB);
-  gl.uniform1f(u_SinB, sinB);
+  const xformMatrix = new Float32Array([
+    cosB, sinB, 0.0, 0.0,
+    -sinB, cosB, 0.0, 0.0,
+    0.0, 0.0, 1.0, 0.0,
+    0.0, 0.0, 0.,0, 1.0
+  ]);
+  const u_xformMatrix = gl.getUniformLocation(gl.program, 'u_xformMatrix');
+  gl.uniformMatrix4fv(u_xformMatrix, false, xformMatrix);
   gl.clearColor(0.0,0.0,0.0,1.0);
   gl.clear(gl.COLOR_BUFFER_BIT);
 
