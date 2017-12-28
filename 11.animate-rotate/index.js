@@ -36,19 +36,22 @@ function main() {
   const cosB = Math.cos(radian);
   const sinB = Math.sin(radian);
 
-  const xformMatrix = new Matrix4();
-  // xformMatrix.setTranslate(0.5, 0, 0);
-  xformMatrix.setRotate(angle, 0, 0, 1);
-  const u_xformMatrix = gl.getUniformLocation(gl.program, 'u_xformMatrix');
-  gl.uniformMatrix4fv(u_xformMatrix, false, xformMatrix.elements);
-  gl.clearColor(0.0,0.0,0.0,1.0);
-  gl.clear(gl.COLOR_BUFFER_BIT);
+  draw();
 
-  gl.drawArrays(gl.TRIANGLES, 0, 3);
-  angle += 1.0;
-  if (angle < 180) {
-    requestAnimationFrame(main);
+  function draw() {
+    const xformMatrix = new Matrix4();
+    xformMatrix.setRotate(angle, 0, 0, 1);
+    const u_xformMatrix = gl.getUniformLocation(gl.program, 'u_xformMatrix');
+    gl.uniformMatrix4fv(u_xformMatrix, false, xformMatrix.elements);
+    gl.clearColor(0.0,0.0,0.0,1.0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    angle += 1.0;
+    if (angle < 180) {
+      requestAnimationFrame(draw);
+    }
   }
+
 }
 
 const Tx = 0.5;
