@@ -12,6 +12,8 @@ const VSHADER_SOURCE = `
 const FSHADER_SOURCE = `
   precision mediump float; // 设置精度
   varying vec4 v_Color;
+  uniform float u_Width;
+  uniform float u_Height;
   void main() {
     gl_FragColor = v_Color;
   }
@@ -38,7 +40,7 @@ function main() {
 
   gl.clearColor(0.0,0.0,0.0,1.0);
   gl.clear(gl.COLOR_BUFFER_BIT);
-  gl.drawArrays(gl.TRIANGLES, 0, 3);
+  gl.drawArrays(gl.LINE_LOOP, 0, 3);
 }
 
 function initVertexBuffers(gl) {
